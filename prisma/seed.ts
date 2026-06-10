@@ -26,7 +26,7 @@ async function main() {
     await prisma.admin.create({
       data: { username: "admin", passwordHash: hash },
     });
-    console.log("✓ Admin seeded  (username: admin | password: Admin@123)");
+    console.log("✓ Admin seeded  (username: admin — change password after first login)");
   } else {
     console.log("✓ Admin already exists — skipped.");
   }

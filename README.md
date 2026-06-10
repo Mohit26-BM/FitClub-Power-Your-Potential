@@ -118,12 +118,12 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Default Credentials
 
-| Role   | Login field | Value                   |
-| ------ | ----------- | ----------------------- |
-| Admin  | Username    | `admin`                 |
-| Admin  | Password    | `Admin@123`             |
-| Member | Member ID   | Set during registration |
-| Member | Password    | Set during registration |
+| Role   | Login field | Value                         |
+| ------ | ----------- | ----------------------------- |
+| Admin  | Username    | `admin`                       |
+| Admin  | Password    | Set during seed (see seed.ts) |
+| Member | Member ID   | Set during registration       |
+| Member | Password    | Set during registration       |
 
 > Change the admin password immediately after first login via **Admin → Settings**.
 
