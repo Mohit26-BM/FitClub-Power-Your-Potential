@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Member {
+  id           String        @id @default(cuid())
+  memberId     String        @unique
+  name         String
+  mobile       String
+  passwordHash String
+  bmi          Float
+  joinDate     DateTime
+  expiryDate   DateTime
+  plan         String
+  feePaid      Boolean       @default(false)
+  booking      SlotBooking?
+  attendance   Attendance[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Slot {
+  id         String        @id @default(cuid())
+  startTime  String
+  endTime    String
+  capacity   Int           @default(20)
+  bookings   SlotBooking[]
+  attendance Attendance[]
+  createdAt  DateTime      @default(now())
+}
+
+model SlotBooking {
+  id       String   @id @default(cuid())
+  slotId   String
+  memberId String   @unique
+  slot     Slot     @relation(fields: [slotId], references: [id], onDelete: Cascade)
+  member   Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  bookedAt DateTime @default(now())
+}
+
+model ContactInquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  plan      String
+  message   String
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  memberId  String
+  mobile    String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Attendance {
+  id        String   @id @default(cuid())
+  memberId  String
+  slotId    String?
+  date      DateTime
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  slot      Slot?    @relation(fields: [slotId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+
+  @@unique([memberId, date])
+}
