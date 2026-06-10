@@ -11,12 +11,11 @@ import { bookSlot, cancelBooking } from "@/actions/slot.actions";
 import { isExpired, formatDate, formatCurrency } from "@/lib/utils";
 import { getBmiCategory, getBmiColor } from "@/lib/bmi";
 import { PLAN_FEES, PLAN_LABELS } from "@/types";
-import { Trash2, ToggleLeft, ToggleRight, Key, Calendar, XCircle, Eye } from "lucide-react";
+import { Trash2, ToggleLeft, ToggleRight, Key, Calendar, XCircle, Eye, EyeOff } from "lucide-react";
 import type { MemberRow, SlotRow } from "@/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resetPasswordSchema, type ResetPasswordInput } from "@/lib/validations";
-import { Eye as EyeIcon, EyeOff } from "lucide-react";
 
 interface Props {
   members: MemberRow[];
@@ -103,20 +102,20 @@ export default function MembersTable({ members, slots }: Props) {
                   </td>
                   <td className="py-3">
                     <div className="flex items-center gap-1">
-                      <button title="View" onClick={() => setSelected(m)} className="p-1.5 text-slate-400 hover:text-white transition-colors">
+                      <button type="button" title="View" aria-label="View member details" onClick={() => setSelected(m)} className="p-1.5 text-slate-400 hover:text-white transition-colors">
                         <Eye size={15} />
                       </button>
-                      <button title="Toggle Fee" onClick={() => act(() => toggleFeeStatus(m.id))} disabled={isPending} className="p-1.5 text-slate-400 hover:text-emerald-400 transition-colors">
+                      <button type="button" title="Toggle Fee" aria-label="Toggle fee status" onClick={() => act(() => toggleFeeStatus(m.id))} disabled={isPending} className="p-1.5 text-slate-400 hover:text-emerald-400 transition-colors">
                         {m.feePaid ? <ToggleRight size={15} className="text-emerald-400" /> : <ToggleLeft size={15} />}
                       </button>
-                      <button title="Reset Password" onClick={() => { setResetTarget(m); resetForm(); }} className="p-1.5 text-slate-400 hover:text-yellow-400 transition-colors">
+                      <button type="button" title="Reset Password" aria-label="Reset member password" onClick={() => { setResetTarget(m); resetForm(); }} className="p-1.5 text-slate-400 hover:text-yellow-400 transition-colors">
                         <Key size={15} />
                       </button>
                       {m.booking
-                        ? <button title="Cancel Booking" onClick={() => act(() => cancelBooking(m.id))} disabled={isPending} className="p-1.5 text-slate-400 hover:text-orange-400 transition-colors"><XCircle size={15} /></button>
-                        : <button title="Book Slot" onClick={() => setBookTarget(m)} className="p-1.5 text-slate-400 hover:text-blue-400 transition-colors"><Calendar size={15} /></button>
+                        ? <button type="button" title="Cancel Booking" aria-label="Cancel slot booking" onClick={() => act(() => cancelBooking(m.id))} disabled={isPending} className="p-1.5 text-slate-400 hover:text-orange-400 transition-colors"><XCircle size={15} /></button>
+                        : <button type="button" title="Book Slot" aria-label="Book a slot" onClick={() => setBookTarget(m)} className="p-1.5 text-slate-400 hover:text-blue-400 transition-colors"><Calendar size={15} /></button>
                       }
-                      <button title="Delete" onClick={() => setDeleteTarget(m)} className="p-1.5 text-slate-400 hover:text-red-400 transition-colors">
+                      <button type="button" title="Delete" aria-label="Delete member" onClick={() => setDeleteTarget(m)} className="p-1.5 text-slate-400 hover:text-red-400 transition-colors">
                         <Trash2 size={15} />
                       </button>
                     </div>
@@ -134,7 +133,7 @@ export default function MembersTable({ members, slots }: Props) {
       {actionMsg && (
         <div className="fixed bottom-6 right-6 bg-emerald-500 text-white px-4 py-2.5 rounded-lg shadow-lg text-sm">
           {actionMsg}
-          <button onClick={() => setActionMsg("")} className="ml-3 opacity-70 hover:opacity-100">×</button>
+          <button type="button" aria-label="Dismiss" onClick={() => setActionMsg("")} className="ml-3 opacity-70 hover:opacity-100">×</button>
         </div>
       )}
 
@@ -186,11 +185,11 @@ export default function MembersTable({ members, slots }: Props) {
           </p>
           <div className="relative">
             <Input label="New Password" type={showPw ? "text" : "password"} placeholder="••••••••" error={errors.newPassword?.message} {...register("newPassword")} />
-            <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300"><EyeIcon size={16} /></button>
+            <button type="button" aria-label={showPw ? "Hide password" : "Show password"} onClick={() => setShowPw(!showPw)} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300"><Eye size={16} /></button>
           </div>
           <div className="relative">
             <Input label="Confirm Password" type={showCp ? "text" : "password"} placeholder="••••••••" error={errors.confirmPassword?.message} {...register("confirmPassword")} />
-            <button type="button" onClick={() => setShowCp(!showCp)} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300"><EyeOff size={16} /></button>
+            <button type="button" aria-label={showCp ? "Hide confirm password" : "Show confirm password"} onClick={() => setShowCp(!showCp)} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300"><EyeOff size={16} /></button>
           </div>
           <div className="flex gap-3 justify-end mt-4">
             <Button type="button" variant="secondary" onClick={() => { setResetTarget(null); resetForm(); }}>Cancel</Button>
@@ -207,6 +206,7 @@ export default function MembersTable({ members, slots }: Props) {
             const full  = avail === 0;
             return (
               <button
+                type="button"
                 key={slot.id}
                 disabled={full || isPending}
                 onClick={() => {

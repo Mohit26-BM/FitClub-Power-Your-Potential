@@ -182,6 +182,7 @@ export default function RegisterForm() {
             />
             <button
               type="button"
+              aria-label={showPw ? "Hide password" : "Show password"}
               onClick={() => setShowPw(!showPw)}
               className="absolute right-3 top-9 text-slate-500 hover:text-slate-300 transition-colors"
             >
@@ -203,6 +204,7 @@ export default function RegisterForm() {
             />
             <button
               type="button"
+              aria-label={showConfirm ? "Hide confirm password" : "Show confirm password"}
               onClick={() => setShowConfirm(!showConfirm)}
               className="absolute right-3 top-9 text-slate-500 hover:text-slate-300 transition-colors"
             >

@@ -104,7 +104,7 @@ export default function AddMemberForm() {
             error={fe("password")}
             {...register("password")}
           />
-          <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
+          <button type="button" aria-label={showPw ? "Hide password" : "Show password"} onClick={() => setShowPw(!showPw)} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
             {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
         </div>
@@ -117,7 +117,7 @@ export default function AddMemberForm() {
             error={fe("confirmPassword")}
             {...register("confirmPassword")}
           />
-          <button type="button" onClick={() => setShowCp(!showCp)} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
+          <button type="button" aria-label={showCp ? "Hide confirm password" : "Show confirm password"} onClick={() => setShowCp(!showCp)} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
             {showCp ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
         </div>

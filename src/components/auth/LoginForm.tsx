@@ -94,6 +94,7 @@ export default function LoginForm() {
             />
             <button
               type="button"
+              aria-label={showPw ? "Hide password" : "Show password"}
               onClick={() => setShowPw(!showPw)}
               className="absolute right-3 top-9 text-slate-500 hover:text-slate-300 transition-colors"
             >

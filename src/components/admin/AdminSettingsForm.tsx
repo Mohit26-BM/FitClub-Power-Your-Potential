@@ -51,21 +51,21 @@ export default function AdminSettingsForm() {
 
       <div className="relative">
         <Input label="Current Password" type={showFields.cur ? "text" : "password"} placeholder="••••••••" error={errors.currentPassword?.message} {...register("currentPassword")} />
-        <button type="button" onClick={() => toggle("cur")} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
+        <button type="button" aria-label={showFields.cur ? "Hide password" : "Show password"} onClick={() => toggle("cur")} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
           {showFields.cur ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
       </div>
 
       <div className="relative">
         <Input label="New Password" type={showFields.np ? "text" : "password"} placeholder="••••••••" error={errors.newPassword?.message} {...register("newPassword")} />
-        <button type="button" onClick={() => toggle("np")} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
+        <button type="button" aria-label={showFields.np ? "Hide new password" : "Show new password"} onClick={() => toggle("np")} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
           {showFields.np ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
       </div>
 
       <div className="relative">
         <Input label="Confirm New Password" type={showFields.cp ? "text" : "password"} placeholder="••••••••" error={errors.confirmPassword?.message} {...register("confirmPassword")} />
-        <button type="button" onClick={() => toggle("cp")} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
+        <button type="button" aria-label={showFields.cp ? "Hide confirm password" : "Show confirm password"} onClick={() => toggle("cp")} className="absolute right-3 top-9 text-slate-500 hover:text-slate-300">
           {showFields.cp ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
       </div>

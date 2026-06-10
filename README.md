@@ -4,42 +4,34 @@ A production-quality, full-stack gym management web application built with **Nex
 
 ---
 
-## Screenshots
-
-> Drop your screenshots into a `/screenshots` folder and update these paths.
-
-| Home Page | Admin Dashboard | Member Portal |
-|-----------|----------------|---------------|
-| ![Home](screenshots/home.png) | ![Admin](screenshots/admin.png) | ![Member](screenshots/member.png) |
-
----
-
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 15 (App Router) |
-| Language | TypeScript (strict mode) |
-| Styling | Tailwind CSS v3 |
-| Database | SQLite (via Prisma ORM v5) |
-| Auth | NextAuth v5 (JWT sessions, Credentials provider) |
-| Validation | Zod + React Hook Form |
-| Password hashing | bcryptjs (salt rounds 12) |
-| Icons | lucide-react |
-| Date utilities | date-fns |
-| Runtime | Node.js 18+ |
+| Layer            | Technology                                       |
+| ---------------- | ------------------------------------------------ |
+| Framework        | Next.js 15 (App Router)                          |
+| Language         | TypeScript (strict mode)                         |
+| Styling          | Tailwind CSS v3                                  |
+| Database         | SQLite (via Prisma ORM v5)                       |
+| Auth             | NextAuth v5 (JWT sessions, Credentials provider) |
+| Validation       | Zod + React Hook Form                            |
+| Password hashing | bcryptjs (salt rounds 12)                        |
+| Icons            | lucide-react                                     |
+| Date utilities   | date-fns                                         |
+| Runtime          | Node.js 18+                                      |
 
 ---
 
 ## Features
 
 ### Public
+
 - **Home page** — Hero, About, Membership Plans (with realistic pricing), Features, Testimonials, Contact/Inquiry form, CTA
 - **Self-registration** — Members sign up with Member ID, mobile, BMI, and plan; fee collected at the gym desk
 - **Forgot password** — Verify identity with Member ID + mobile, receive a 6-digit reset code, set new password
 - **Scroll animations** — Fade/slide-in effects on all homepage sections
 
 ### Member Portal (`/member`)
+
 - Profile overview — membership status, plan, expiry, fee status
 - BMI analysis with personalised fitness recommendations
 - Slot booking — view available time slots and book one
@@ -47,6 +39,7 @@ A production-quality, full-stack gym management web application built with **Nex
 - Settings — update mobile number / BMI, change password
 
 ### Admin Dashboard (`/admin`)
+
 - **Stats overview** — total members, fee paid, expiring soon, expired, new inquiries, slot occupancy
 - **Revenue by plan** — live calculation based on current plan fees
 - **Member management** — add, view, delete, search members; toggle fee status; reset passwords
@@ -78,6 +71,7 @@ npm install
 Create **both** files (Prisma CLI reads `.env`; Next.js reads `.env.local`):
 
 **.env**
+
 ```
 DATABASE_URL="file:./dev.db"
 AUTH_SECRET="your-random-secret-here"
@@ -85,6 +79,7 @@ NEXTAUTH_URL="http://localhost:3000"
 ```
 
 **.env.local**
+
 ```
 DATABASE_URL="file:./dev.db"
 AUTH_SECRET="your-random-secret-here"
@@ -92,6 +87,7 @@ NEXTAUTH_URL="http://localhost:3000"
 ```
 
 Generate a secure `AUTH_SECRET`:
+
 ```bash
 openssl rand -base64 32
 ```
@@ -99,11 +95,13 @@ openssl rand -base64 32
 ### Database Setup
 
 Push the schema to SQLite:
+
 ```bash
 npm run db:push
 ```
 
 Seed the database (creates admin account + 10 default time slots):
+
 ```bash
 npm run db:seed
 ```
@@ -120,12 +118,12 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Default Credentials
 
-| Role | Login field | Value |
-|---|---|---|
-| Admin | Username | `admin` |
-| Admin | Password | `Admin@123` |
-| Member | Member ID | Set during registration |
-| Member | Password | Set during registration |
+| Role   | Login field | Value                   |
+| ------ | ----------- | ----------------------- |
+| Admin  | Username    | `admin`                 |
+| Admin  | Password    | `Admin@123`             |
+| Member | Member ID   | Set during registration |
+| Member | Password    | Set during registration |
 
 > Change the admin password immediately after first login via **Admin → Settings**.
 
@@ -182,27 +180,27 @@ fitclub/
 
 ## Database Models
 
-| Model | Purpose |
-|---|---|
-| `Admin` | Admin credentials |
-| `Member` | Member profile, plan, BMI, fee status |
-| `Slot` | Daily time slots with capacity |
-| `SlotBooking` | Member ↔ slot assignment |
-| `Attendance` | Daily check-in records per member |
-| `PasswordResetToken` | 6-digit reset codes (30 min TTL) |
-| `ContactInquiry` | Home page contact form submissions |
+| Model                | Purpose                               |
+| -------------------- | ------------------------------------- |
+| `Admin`              | Admin credentials                     |
+| `Member`             | Member profile, plan, BMI, fee status |
+| `Slot`               | Daily time slots with capacity        |
+| `SlotBooking`        | Member ↔ slot assignment              |
+| `Attendance`         | Daily check-in records per member     |
+| `PasswordResetToken` | 6-digit reset codes (30 min TTL)      |
+| `ContactInquiry`     | Home page contact form submissions    |
 
 ---
 
 ## API Routes
 
-| Route | Method | Description |
-|---|---|---|
-| `/api/auth/[...nextauth]` | GET, POST | NextAuth handler |
-| `/api/members` | GET | Search/list members (admin only) |
-| `/api/members/[id]` | GET, PATCH, DELETE | Member CRUD (admin only) |
-| `/api/slots` | GET, POST | List/create slots (admin only) |
-| `/api/slots/[id]/book` | POST | Book a slot (member only) |
+| Route                     | Method             | Description                      |
+| ------------------------- | ------------------ | -------------------------------- |
+| `/api/auth/[...nextauth]` | GET, POST          | NextAuth handler                 |
+| `/api/members`            | GET                | Search/list members (admin only) |
+| `/api/members/[id]`       | GET, PATCH, DELETE | Member CRUD (admin only)         |
+| `/api/slots`              | GET, POST          | List/create slots (admin only)   |
+| `/api/slots/[id]/book`    | POST               | Book a slot (member only)        |
 
 All mutation operations use **Server Actions** rather than API routes where possible.
 
@@ -210,11 +208,11 @@ All mutation operations use **Server Actions** rather than API routes where poss
 
 ## Membership Plans
 
-| Plan | Price | Duration |
-|---|---|---|
-| Monthly | ₹2,499 | 1 month |
-| Quarterly | ₹6,499 | 3 months (save ₹998) |
-| Annual | ₹21,999 | 12 months (save ₹7,989) |
+| Plan      | Price   | Duration                |
+| --------- | ------- | ----------------------- |
+| Monthly   | ₹2,499  | 1 month                 |
+| Quarterly | ₹6,499  | 3 months (save ₹998)    |
+| Annual    | ₹21,999 | 12 months (save ₹7,989) |
 
 ---
 
@@ -247,12 +245,12 @@ npm run db:seed    # Seed admin + slots
 
 The site uses gradient fallbacks when images are missing. To add real images, place these files in `public/images/`:
 
-| File | Used in | Recommended size |
-|---|---|---|
-| `hero.jpg` | Hero background | 1920×1080 |
-| `about-1.jpg` | Premium Equipment panel | 800×600 |
-| `about-2.jpg` | Expert Trainers panel | 800×600 |
-| `about-3.jpg` | Group Training panel | 800×600 |
+| File          | Used in                 | Recommended size |
+| ------------- | ----------------------- | ---------------- |
+| `hero.jpg`    | Hero background         | 1920×1080        |
+| `about-1.jpg` | Premium Equipment panel | 800×600          |
+| `about-2.jpg` | Expert Trainers panel   | 800×600          |
+| `about-3.jpg` | Group Training panel    | 800×600          |
 
 ---
 
