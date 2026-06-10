@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: fitclub-gym
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npx prisma db push && npm start
+    envVars:
+      - key: DATABASE_URL
+        value: file:/data/gym.db
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: NEXTAUTH_URL
+        value: https://fitclub-gym.onrender.com
+      - key: NODE_ENV
+        value: production
+    disk:
+      name: gym-db
+      mountPath: /data
+      sizeGB: 1
